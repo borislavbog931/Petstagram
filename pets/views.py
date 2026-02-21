@@ -1,13 +1,45 @@
-from django.shortcuts import render
+from django.db.models import Prefetch
+from django.shortcuts import render, redirect
+
+from pets.forms import PetForm
+from pets.models import Pet
+from photos.models import Photo
+
 
 def pet_add(request):
-    return render(request, 'pets/pet-add-page.html')
+    form = PetForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('accounts:details', pk=1)
+    context = {'form': form}
+    return render(request, 'pets/pet-add-page.html', context)
 
-def pet_details(request, pk: int):
-    return render(request, 'pets/pet-details-page.html')
 
-def pet_edit(request, pk: int):
-    return render(request, 'pets/pet-edit-page.html')
+def pet_details(request, username, pet_slug):
+    pet = Pet.objects.prefetch_related(Prefetch('photo_set', queryset=Photo.objects.prefetch_related(
+    'tagged_pets', 'like_set'
+    ))).get(slug=pet_slug)
 
-def pet_delete(request, pk: int):
-    return render(request, 'pets/pet-delete-page.html')
+    context = {'pet': pet}
+    return render(request, 'pets/pet-details-page.html', context)
+
+def pet_edit(request, username, pet_slug):
+    pet = Pet.objects.get(slug=pet_slug)
+    form = PetForm(request.POST or None, instance=pet)
+    if request.method == 'POST' and form.is_valid():
+        instance = form.save()
+        return redirect('pets:details', username='username', pet_slug=instance.slug)
+    context = {'form': form,
+               'pet': pet}
+    return render(request, 'pets/pet-edit-page.html', context)
+
+def pet_delete(request, username, pet_slug):
+    pet = Pet.objects.get(slug=pet_slug)
+    form = PetForm(request.POST or None, instance=pet)
+    if request.method == 'POST' and form.is_valid():
+        pet.delete()
+        return redirect('accounts:details', pk=1)
+    context = {'form': form,
+               'pet': pet}
+
+    return render(request, 'pets/pet-delete-page.html', context)

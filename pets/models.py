@@ -10,3 +10,6 @@ class Pet(models.Model):
     def save(self, *args, **kwargs)->None:
         self.slug = slugify(f'{self.name}-{self.pk}')
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
