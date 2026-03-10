@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
 
@@ -7,6 +8,10 @@ class Pet(models.Model):
     personal_photo = models.URLField()
     date_of_birth = models.DateField(blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, editable=False)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     def save(self, *args, **kwargs)->None:
         self.slug = slugify(f'{self.name}-{self.pk}')
         super().save(*args, **kwargs)

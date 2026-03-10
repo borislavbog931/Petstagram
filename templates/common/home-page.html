@@ -1,5 +1,6 @@
 
 {% extends 'shared/base.html' %}
+{% load static %}
 
 
 {% block content%}
@@ -10,7 +11,7 @@
             <form class="searchbar">
                 <input type="text" name='pet_name' placeholder="Search by pet name...">
                 <button>
-                    <img src="/static/images/search.png" height="18" alt="img2">
+                    <img src="{% static 'images/search.png' %}" height="18" alt="img2">
                 </button>
             </form>
             <!-- End Searchbar Form -->

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.db import models
 
@@ -6,7 +7,7 @@ from photos.validators import FileSizeValidator
 
 class Photo(models.Model):
     photo = models.ImageField(
-        upload_to= 'media',
+        upload_to='photos',
         validators=[
             FileSizeValidator(5)
         ]
@@ -23,3 +24,7 @@ class Photo(models.Model):
     location = models.CharField(max_length=30)
     tagged_pets = models.ManyToManyField(to="pets.Pet")
     date_of_publication = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )

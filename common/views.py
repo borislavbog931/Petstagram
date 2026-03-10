@@ -26,6 +26,7 @@ def add_comment (request, photo_pk:int):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.to_photo = photo
+            comment.user = request.user
             comment.save()
         return redirect(request.META.get('HTTP_REFERER') + f'#{photo_pk}')
 
@@ -33,11 +34,11 @@ def add_comment (request, photo_pk:int):
 
 def like_functionality(request, photo_pk:int):
 
-    like_object=Like.objects.filter(to_photo_id=photo_pk).first()
+    like_object=Like.objects.filter(to_photo_id=photo_pk, user=request.user).first()
     if like_object:
         like_object.delete()
     else:
-        Like.objects.create(to_photo_id=photo_pk)
+        Like.objects.create(to_photo_id=photo_pk, user=request.user)
     return redirect(request.META.get('HTTP_REFERER') + f'#{photo_pk}')
 
 def share_functionality(request, photo_pk:int):

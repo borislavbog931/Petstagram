@@ -26,16 +26,34 @@
 }
 
 .edit-delete label {
-	display: none;
+	display: block;
+	margin: 0;
+	min-width: 130px;
+	padding-top: 6px;
+	white-space: nowrap;
 }
 
-.edit-delete input, select {
+.edit-delete .form-row {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	margin-top: 12px;
+}
+
+.edit-delete .field-wrapper {
+	flex: 1;
+}
+
+.edit-delete input,
+.edit-delete select,
+.edit-delete textarea {
 	background-color: rgb(240, 230, 230);
 	border: 0.1px solid rgb(186, 184, 184);
 	border-radius: 3px;
 	height: 30px;
 	padding-left: 2px;
-	margin-top: 10px;
+	width: 100%;
+	margin-top: 0;
 }
 
 .edit-delete button {
@@ -53,10 +71,18 @@
 
 .edit-delete textarea {
 	position: relative !important;
+	min-height: 90px;
+	padding-top: 6px;
 }
 
 .edit-delete a {
 	color: white;
+}
+
+.edit-delete .errorlist {
+	margin: 6px 0 0;
+	padding-left: 18px;
+	color: rgb(180, 25, 25);
 }
 
 /* .edit-photo select {

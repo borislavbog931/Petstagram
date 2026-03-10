@@ -1,4 +1,5 @@
 {% extends 'shared/base.html' %}
+{% load static %}
 
 {% block content%}
     <div class="pet-profile">
@@ -8,7 +9,7 @@
                 <div class="profile_img">
                     <div class="image">
                         <!-- Pet URL Image -->
-                        <img src="https://encrypted-tbn0.gstatic.com/static/images?q=tbn:ANd9GcTgoIHq82qLYnvomfz5ZkW5CLQ8VNxCyI-hUw&usqp=CAU"
+                        <img src="{{ pet.personal_photo }}"
                              alt="img8">
                     </div>
                 </div>
@@ -18,11 +19,11 @@
                         <p>{{ pet.name }}</p>
                         <!-- Pet Edit Button -->
                         <a href="{% url 'pets:edit' username='username' pet_slug=pet.slug %}">
-                            <img class="edit-img" src="/static/images/edit-pen-icon-6.jpg" alt="edit button">
+                            <img class="edit-img" src="{% static 'images/edit-pen-icon-6.jpg' %}" alt="edit button">
                         </a>
                         <!-- Pet Delete Button -->
                         <a href="{% url 'pets:delete' username='username' pet_slug=pet.slug %}">
-                            <img class="bin-img" src="/static/images/icon-remove-22.jpg" alt="bin button">
+                            <img class="bin-img" src="{% static 'images/icon-remove-22.jpg' %}" alt="bin button">
                         </a>
                     </div>
                     <div class="data">
@@ -42,7 +43,7 @@
             {% for photo in pet.photo_set.all %}
                 {% include "common/pet-posts.html" %}
             {% empty %}
-                <img class="no-posts" src="/static/images/no_posts.png" alt="no posts image">
+                <img class="no-posts" src="{% static 'images/no_posts.png' %}" alt="no posts image">
             {% endfor %}
             <!-- IF NOT Photos Show No Post Image -->
 
